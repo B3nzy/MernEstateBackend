@@ -3,6 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 8000;
+const cors = require("cors");
 
 app.use(express.json());
 
@@ -15,6 +16,16 @@ mongoose
   .catch((err) => {
     console.log(`${err}`);
   });
+
+// allowing access from client origin
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+    exposedHeaders: ["Content-Disposition"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  })
+);
 
 // Running the server on specified PORT
 app.listen(PORT, (req, res) => {
