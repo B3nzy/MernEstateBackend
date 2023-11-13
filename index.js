@@ -4,8 +4,10 @@ const mongoose = require("mongoose");
 const app = express();
 const PORT = process.env.PORT || 8000;
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
 
 app.use(express.json());
+app.use(cookieParser());
 
 // Connecting to the database
 mongoose
@@ -36,6 +38,10 @@ app.listen(PORT, (req, res) => {
 // Authetication API
 const authRouter = require("./routes/auth.route");
 app.use("/api/auth", authRouter);
+
+// User Related API
+const userRouter = require("./routes/user.route");
+app.use("/api/user", userRouter);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
