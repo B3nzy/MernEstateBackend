@@ -37,6 +37,7 @@ const signin = async (req, res, next) => {
       process.env.JWT_SECRET_KEY
     );
     const {
+      _id,
       username: usernameDB,
       email: emailDB,
       avatar: avatarDB,
@@ -53,6 +54,7 @@ const signin = async (req, res, next) => {
         username: usernameDB,
         email: emailDB,
         avatar: avatarDB,
+        _id,
       });
   } catch (err) {
     next(err);
@@ -71,7 +73,12 @@ const google = async (req, res, next) => {
         },
         process.env.JWT_SECRET_KEY
       );
-      const { username: usernameDB, email: emailDB, avatar: avatarDB } = user;
+      const {
+        _id,
+        username: usernameDB,
+        email: emailDB,
+        avatar: avatarDB,
+      } = user;
       res
         .cookie("access_token", token, {
           httpOnly: true,
@@ -84,6 +91,7 @@ const google = async (req, res, next) => {
           username: usernameDB,
           email: emailDB,
           avatar: avatarDB,
+          _id,
         });
     } else {
       const generatedPass =
@@ -110,6 +118,7 @@ const google = async (req, res, next) => {
         process.env.JWT_SECRET_KEY
       );
       const {
+        _id,
         username: usernameDB,
         email: emailDB,
         avatar: avatarDB,
@@ -126,6 +135,7 @@ const google = async (req, res, next) => {
           username: usernameDB,
           email: emailDB,
           avatar: avatarDB,
+          _id,
         });
     }
   } catch (err) {

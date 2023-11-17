@@ -5,7 +5,8 @@ const User = require("../models/user.model");
 
 const updateUser = async (req, res, next) => {
   try {
-    if (req.user.id != req.params.id) {
+    console.log(req.body);
+    if (req.user.id !== req.params.id) {
       return next(errorHandler(401, "You can only update your own account!"));
     }
     if (req.body.password) {
@@ -23,8 +24,9 @@ const updateUser = async (req, res, next) => {
       },
       { new: true }
     );
-
+    console.log(updatedUser);
     const {
+      _id,
       username: usernameDB,
       email: emailDB,
       avatar: avatarDB,
@@ -36,10 +38,26 @@ const updateUser = async (req, res, next) => {
       username: usernameDB,
       email: emailDB,
       avatar: avatarDB,
+      _id,
     });
   } catch (err) {
     next(err);
   }
 };
 
-module.exports = updateUser;
+const deleteUser = async (req, res, next) => {
+  if (req.user.id !== req.params.id) {
+    return next(errorHandler(401, "You can only delete your own acccount!"));
+  }
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.status(200).clearCookie("access_token").json({
+      success: true,
+      message: "User has been deleted!",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { updateUser, deleteUser };
