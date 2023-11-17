@@ -143,4 +143,15 @@ const google = async (req, res, next) => {
   }
 };
 
-module.exports = { signup, signin, google };
+const signout = async (req, res, next) => {
+  try {
+    res.status(200).clearCookie("access_token").json({
+      success: true,
+      message: "User has been logged out!",
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { signup, signin, google, signout };
