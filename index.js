@@ -43,6 +43,10 @@ app.use("/api/auth", authRouter);
 const userRouter = require("./routes/user.route");
 app.use("/api/user", userRouter);
 
+// Listing Related API
+const listingRouter = require("./routes/listing.route");
+app.use("/api/listing", listingRouter);
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
