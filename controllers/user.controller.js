@@ -2,6 +2,7 @@ const errorHandler = require("../utils/error");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const User = require("../models/user.model");
+const Listing = require("../models/listing.model");
 
 const updateUser = async (req, res, next) => {
   try {
@@ -60,4 +61,19 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
-module.exports = { updateUser, deleteUser };
+const getUserListing = async (req, res, next) => {
+  if (req.user.id !== req.params.id) {
+    return next(errorHandler(401, "You can only view your own listings!"));
+  }
+  try {
+    const listings = await Listing.find({ userRef: req.user.id });
+    res.status(200).clearCookie("access_token").json({
+      success: true,
+      listings,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { updateUser, deleteUser, getUserListing };
