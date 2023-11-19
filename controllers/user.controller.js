@@ -67,7 +67,7 @@ const getUserListing = async (req, res, next) => {
   }
   try {
     const listings = await Listing.find({ userRef: req.user.id });
-    res.status(200).clearCookie("access_token").json({
+    res.status(200).json({
       success: true,
       listings,
     });
