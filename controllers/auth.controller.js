@@ -45,7 +45,6 @@ const signin = async (req, res, next) => {
     res
       .cookie("access_token", token, {
         httpOnly: true,
-        maxAge: 2 * 60 * 60 * 1000,
       })
       .status(200)
       .json({
@@ -82,7 +81,6 @@ const google = async (req, res, next) => {
       res
         .cookie("access_token", token, {
           httpOnly: true,
-          maxAge: 2 * 60 * 60 * 1000,
         })
         .status(200)
         .json({
