@@ -76,4 +76,31 @@ const getUserListing = async (req, res, next) => {
   }
 };
 
-module.exports = { updateUser, deleteUser, getUserListing };
+const getUser = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return next(errorHandler(404, "User not found!"));
+    }
+
+    const {
+      _id,
+      username: usernameDB,
+      email: emailDB,
+      avatar: avatarDB,
+    } = user;
+
+    res.status(200).json({
+      success: true,
+      message: "Valid user",
+      username: usernameDB,
+      email: emailDB,
+      avatar: avatarDB,
+      _id,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { updateUser, deleteUser, getUserListing, getUser };
